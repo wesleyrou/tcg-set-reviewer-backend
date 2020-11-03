@@ -16,23 +16,23 @@ VALUES
 (2,1),
 (2,1);
 
-INSERT INTO  cards (set_id, name, power, toughness)
-VALUES
-(1,'Allied Assault', 1, 2),
-(1,'Card 2', 1, 2),
-(1,'Card 3', 1, 2),
-(1,'Card 4', 1, 2),
-(1,'Card 5', 1, 2),
-(1,'Card 6', 1, 2);
+-- INSERT INTO  cards (set_id, name, power, toughness)
+-- VALUES
+-- (1,'Allied Assault', 1, 2),
+-- (1,'Card 2', 1, 2),
+-- (1,'Card 3', 1, 2),
+-- (1,'Card 4', 1, 2),
+-- (1,'Card 5', 1, 2),
+-- (1,'Card 6', 1, 2);
 
-INSERT INTO  card_reviews (review_id, card_id, rating)
-VALUES
-(1,1, 1),
-(1,2, 2),
-(1,3, 3),
-(1,4, 3),
-(1,5, 4),
-(1,6, 5);
+-- INSERT INTO  card_reviews (review_id, card_id, rating)
+-- VALUES
+-- (1,1, 1),
+-- (1,2, 2),
+-- (1,3, 3),
+-- (1,4, 3),
+-- (1,5, 4),
+-- (1,6, 5);
 
 
 
