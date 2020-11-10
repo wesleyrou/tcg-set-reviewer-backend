@@ -4,9 +4,19 @@ const SetService = require('./set-service');
 const setsRouter = express.Router();
 
 setsRouter
-  .route('/')
+  .route('/seed')
   .post(express.json(), (req, res, next) => {
-    SetService.postAllSetCodesFromScryfall(req.app.get('db'))
+    SetService.seedAllSetCodesFromScryfall(req.app.get('db'))
+      .then(data => {
+        return res.status(200).json(data);
+      })
+      .catch(next);
+  });
+
+setsRouter
+  .route('/update')
+  .post(express.json(), (req, res, next) => {
+    SetService.postNewSetsFromScryfall(req.app.get('db'))
       .then(data => {
         return res.status(200).json(data);
       })

@@ -7,6 +7,12 @@ const getSetId = (db, code) => {
     .then((row) => row[0]);
 };
 
+const getAllSetCodes = (db) => {
+  return db
+    .from('sets')
+    .returning('*');  
+};
+
 const postSet = (db, setObject) => {
   return db
     .insert(setObject)
@@ -15,7 +21,7 @@ const postSet = (db, setObject) => {
     .then((row) => row[0]);
 };
 
-const postAllSetCodesFromScryfall = (db) => {
+const seedAllSetCodesFromScryfall = (db) => {
   return axios.get('https://api.scryfall.com/sets', {
     headers: { 'Origin': 'X-Requested-With' } // may be able to remove this later
   })
@@ -26,13 +32,8 @@ const postAllSetCodesFromScryfall = (db) => {
           set_name: setData.name,
           release_date: setData.released_at
         };
-      });
-
-      console.log(allSetCodes);
-
-      allSetCodes.forEach(setObject => {
-        postSet(db, setObject);
-      });
+      }).reverse();
+      postSet(db, allSetCodes);
 
       return {
         message: `${allSetCodes.length} sets posted`
@@ -41,8 +42,42 @@ const postAllSetCodesFromScryfall = (db) => {
     });
 };
 
+const postNewSetsFromScryfall = (db) => {
+  return axios.get('https://api.scryfall.com/sets', {
+    headers: { 'Origin': 'X-Requested-With' } // may be able to remove this later
+  })
+    .then(res => {
+      let allSetCodes = res.data.data.map(setData => {
+        return {
+          code: setData.code,
+          set_name: setData.name,
+          release_date: setData.released_at
+        };
+      });
+
+      getAllSetCodes(db)
+        .then(sets => {
+          const lengthDiff = allSetCodes.length - sets.length;
+          if( lengthDiff !== 0){
+            allSetCodes.splice(lengthDiff, allSetCodes.length);
+            console.log('HELLO', allSetCodes.length);
+            allSetCodes.reverse();
+            postSet(db, allSetCodes);
+          }
+
+          return {
+            message: `${allSetCodes.length} sets posted`
+          };
+        });
+
+      
+
+    });
+};
+
 module.exports = {
   getSetId,
   postSet,
-  postAllSetCodesFromScryfall
+  seedAllSetCodesFromScryfall,
+  postNewSetsFromScryfall
 };
