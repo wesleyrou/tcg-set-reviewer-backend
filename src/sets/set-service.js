@@ -10,7 +10,7 @@ const getSetId = (db, code) => {
 const getAllSetCodes = (db) => {
   return db
     .from('sets')
-    .returning('*');  
+    .returning('*');
 };
 
 const postSet = (db, setObject) => {
@@ -58,7 +58,7 @@ const postNewSetsFromScryfall = (db) => {
       getAllSetCodes(db)
         .then(sets => {
           const lengthDiff = allSetCodes.length - sets.length;
-          if( lengthDiff !== 0){
+          if (lengthDiff !== 0) {
             allSetCodes.splice(lengthDiff, allSetCodes.length);
             console.log('HELLO', allSetCodes.length);
             allSetCodes.reverse();
@@ -70,7 +70,7 @@ const postNewSetsFromScryfall = (db) => {
           };
         });
 
-      
+
 
     });
 };
