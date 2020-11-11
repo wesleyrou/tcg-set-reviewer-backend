@@ -1,3 +1,10 @@
+Set up database:
+migrate
+post to sets '/seed'
+post to cards '/seed'
+
+
+
 # Express Boilerplate!
 
 This is a boilerplate project used for starting new projects!
