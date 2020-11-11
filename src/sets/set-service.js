@@ -7,7 +7,7 @@ const getSetId = (db, code) => {
     .then((row) => row[0]);
 };
 
-const getAllSetCodes = (db) => {
+const getAllSets = (db) => {
   return db
     .from('sets')
     .returning('*');
@@ -55,7 +55,7 @@ const postNewSetsFromScryfall = (db) => {
         };
       });
 
-      getAllSetCodes(db)
+      getAllSets(db)
         .then(sets => {
           const lengthDiff = allSetCodes.length - sets.length;
           if (lengthDiff !== 0) {
@@ -77,6 +77,7 @@ const postNewSetsFromScryfall = (db) => {
 
 module.exports = {
   getSetId,
+  getAllSets,
   postSet,
   seedAllSetCodesFromScryfall,
   postNewSetsFromScryfall

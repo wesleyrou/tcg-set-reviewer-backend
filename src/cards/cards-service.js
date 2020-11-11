@@ -1,14 +1,21 @@
 const axios = require('axios');
 
+let problemCard;
+
 const getCards = (setCode, setId) => {
   return axios.get(`https://api.scryfall.com/cards/search?q=set:${setCode}&order=color`, {
     headers: { 'Origin': 'X-Requested-With' } // may be able to remove this later
   })
     .then(res => {
       // console.log(res.data.data);
-      console.log(formatCards(res.data.data, setId));
+      // console.log(formatCards(res.data.data, setId));
       // formatCards(res.data.data);
       return formatCards(res.data.data, setId);
+    })
+    .catch(error => {
+      console.log('error', error.message);
+      console.log('set:', setCode);
+      console.log('problem card: ', problemCard);
     });
 };
 
@@ -24,6 +31,7 @@ const formatCards = (cardData, setId) => {
 
     // Dual Faced Card edge case
     let cardObject = {};
+    problemCard = card.name;
 
     if (card.card_faces) {
       const front = card.card_faces[0];
@@ -34,9 +42,9 @@ const formatCards = (cardData, setId) => {
         card_name: card.name,
         cost: `${front.mana_cost ? front.mana_cost : null},${back.mana_cost ? back.mana_cost : null}`,
         card_type: `${front.type_line},${back.type_line}`,
-        color: `${front.colors.toString()},${back.colors.toString()}`,
+        color: card.colors ? card.colors.toString() : `${front.colors.toString()},${back.colors.toString()}`,
         rarity: card.rarity,
-        image_url: `${front.image_uris.normal},${back.image_uris.normal}`
+        image_url: card.image_uris ? card.image_uris.normal : `${front.image_uris.normal},${back.image_uris.normal}`
       };
     }
     // Regular card case
@@ -47,7 +55,7 @@ const formatCards = (cardData, setId) => {
         card_name: card.name,
         cost: card.mana_cost,
         card_type: card.type_line,
-        color: card.colors.toString(),
+        color: card.colors ? card.colors.toString() : '',
         rarity: card.rarity,
         image_url: card.image_uris.normal
       };
