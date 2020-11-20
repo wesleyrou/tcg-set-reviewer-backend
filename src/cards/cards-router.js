@@ -20,27 +20,44 @@ cardsRouter
   .post(express.json(), (req, res, next) => {
     let allCards = [];
 
-    SetService.getAllSets(req.app.get('db'))
-      .then(setData => {
+    console.log(cardData[0]);
 
-        // need to make this promise work to wait for all getCards calls to finish before posting cards to DB
-        // https://flaviocopes.com/javascript-async-await-array-map/
-        Promise.all(setData.forEach(set => {
-          CardsService.getCards(set.code, set.id)
-            .then(cardsObject => {
-              allCards.push(cardsObject);
-            })
-            .catch(next);
-        }))
-          .then(() => {
-            CardsService.postCards(req.app.get('db'), allCards)
-              .then((cardSet) => {
-                return res.status(201).json(cardSet);
-              })
-              .catch(next);
-          });
-      })
-      .catch(next);
+    // const sleep = ms => {
+    //   return new Promise(resolve => setTimeout(resolve, ms));
+    // };
+
+    // SetService.getAllSets(req.app.get('db'))
+    //   .then(setData => {
+
+    // need to make this promise work to wait for all getCards calls to finish before posting cards to DB
+    // https://flaviocopes.com/javascript-async-await-array-map/
+
+    // for(let i = 0; i < setData.length; i++){
+    //   CardsService.getCards(set.code, set.id)
+    //         .then(cardsObject => {
+    //           allCards.push(cardsObject);
+    //         })
+    //         .catch(next);
+    // }
+    //   setData.forEach((set,index) => {
+    //     return sleep(100*index)
+    //       .then(() => {
+    //         CardsService.getCards(set.code, set.id)
+    //           .then(cardsObject => {
+    //             allCards.push(cardsObject);
+    //           })
+    //           .catch(next);
+    //       });
+    //   });
+    // })
+    // .then(() => {
+    //   CardsService.postCards(req.app.get('db'), allCards)
+    //     .then((cardSet) => {
+    //       return res.status(201).json(cardSet);
+    //     })
+    //     .catch(next);          
+    // });
+    // .catch(next);
   });
 
 module.exports = cardsRouter;
