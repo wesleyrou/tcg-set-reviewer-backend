@@ -18,9 +18,7 @@ const cardsRouter = express.Router();
 cardsRouter
   .route('/seed')
   .post(express.json(), (req, res, next) => {
-    let allCards = [];
-
-    console.log(cardData[0]);
+    let allCards = [];    
 
     // const sleep = ms => {
     //   return new Promise(resolve => setTimeout(resolve, ms));
