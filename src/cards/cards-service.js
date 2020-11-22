@@ -5,7 +5,7 @@ let count = 0;
 
 const getCards = (setCode, setId) => {
   count++;
-  console.log('Scryfall Call Counter:' , count);
+  console.log('Scryfall Call Counter:', count);
   return axios.get(`https://api.scryfall.com/cards/search?q=set:${setCode}&order=color`, {
     headers: { 'Origin': 'X-Requested-With' } // may be able to remove this later
   })
@@ -81,4 +81,5 @@ const postCards = (db, cardSet) => {
 module.exports = {
   getCards,
   postCards,
+  formatCards
 };
