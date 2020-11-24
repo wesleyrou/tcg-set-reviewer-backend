@@ -23,7 +23,7 @@ fs.createReadStream(filePath).pipe(jsonStream.input);
 
 let allSetIdsAndCodes = {};
 let chunk = [];
-const chunkSize = 3;
+const chunkSize = 1000; // may need to lower
 
 SetsService.getAllSets(db)
   .then(allSets => {
