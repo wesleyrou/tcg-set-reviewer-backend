@@ -11,12 +11,12 @@ const SetsService = require('../sets/set-service');
 const knex = require('knex');
 const { DATABASE_URL } = require('../config');
 
-const jsonStream = StreamArray.withParser();
-
 const db = knex({
   client: 'pg',
   connection: DATABASE_URL,
 });
+
+const jsonStream = StreamArray.withParser();
 
 // internal Node readable stream option, pipe to stream-json to convert it for us
 fs.createReadStream(filePath).pipe(jsonStream.input);
