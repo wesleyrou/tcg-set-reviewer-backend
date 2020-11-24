@@ -4,58 +4,22 @@ const SetService = require('../sets/set-service');
 
 const cardsRouter = express.Router();
 
-// seed - post
-//    go through sets array
-//    pull card data from scryfall for that set
-//    post the card data from that set to our db
-
-// update - post
+// TODO: update - post
 //    go through sets array
 //    grab all sets where date is >= today's date
 //    pull card data from scryfall for that set
 //    post the card data from that set to our db
 
 cardsRouter
-  .route('/seed')
-  .post(express.json(), (req, res, next) => {
-    let allCards = [];    
+  .route('/:setID') // GET all cards from a set using set-id 
+  .get(express.json(), (req, res, next) => {
+    const { setID } = req.params;
 
-    // const sleep = ms => {
-    //   return new Promise(resolve => setTimeout(resolve, ms));
-    // };
-
-    // SetService.getAllSets(req.app.get('db'))
-    //   .then(setData => {
-
-    // need to make this promise work to wait for all getCards calls to finish before posting cards to DB
-    // https://flaviocopes.com/javascript-async-await-array-map/
-
-    // for(let i = 0; i < setData.length; i++){
-    //   CardsService.getCards(set.code, set.id)
-    //         .then(cardsObject => {
-    //           allCards.push(cardsObject);
-    //         })
-    //         .catch(next);
-    // }
-    //   setData.forEach((set,index) => {
-    //     return sleep(100*index)
-    //       .then(() => {
-    //         CardsService.getCards(set.code, set.id)
-    //           .then(cardsObject => {
-    //             allCards.push(cardsObject);
-    //           })
-    //           .catch(next);
-    //       });
-    //   });
-    // })
-    // .then(() => {
-    //   CardsService.postCards(req.app.get('db'), allCards)
-    //     .then((cardSet) => {
-    //       return res.status(201).json(cardSet);
-    //     })
-    //     .catch(next);          
-    // });
-    // .catch(next);
+    CardsService.getCards(req.app.get('db'), setID)
+      .then(allCards => {
+        res.status(200).json(allCards);
+      })
+      .catch(next);
   });
 
 module.exports = cardsRouter;

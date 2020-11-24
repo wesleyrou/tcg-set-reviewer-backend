@@ -1,7 +1,8 @@
 // First need to download bulk card data from scryfall
 // https://scryfall.com/docs/api/bulk-data
 
-let filePath = 'src/utilities/large-cards.json'; // set filePath to where the downloaded bulk data is located
+// 'src/utilities/small-cards.json'
+let filePath = '../data/all-cards-large.json'; // set filePath to where the downloaded bulk data is located
 const StreamArray = require('stream-json/streamers/StreamArray');
 const fs = require('fs');
 
@@ -38,7 +39,12 @@ SetsService.getAllSets(db)
 
 const startStreamManager = () => {
   jsonStream.on('data', cardData => {
-    chunk.push(cardData.value);
+    let cardDataWithID = {
+      ...cardData.value,
+      set_id: allSetIdsAndCodes[cardData.value.set]
+    };
+
+    chunk.push(cardDataWithID);
 
     if (chunk.length === chunkSize) {
       formatAndInsertToDB(chunk);

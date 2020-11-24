@@ -1,28 +1,18 @@
 const axios = require('axios');
 
-let problemCard;
-let count = 0;
+// const getCardsFromScryfall = (setCode, setId) => {
+//   return axios.get(`https://api.scryfall.com/cards/search?q=set:${setCode}&order=color`, {
+//     headers: { 'Origin': 'X-Requested-With' } // may be able to remove this later
+//   })
+//     .then(res => {
+//       return formatCards(res.data.data, setId);
+//     })
+//     .catch(error => {
+//       console.log('error', error.message);
+//     });
+// };
 
-const getCards = (setCode, setId) => {
-  count++;
-  console.log('Scryfall Call Counter:', count);
-  return axios.get(`https://api.scryfall.com/cards/search?q=set:${setCode}&order=color`, {
-    headers: { 'Origin': 'X-Requested-With' } // may be able to remove this later
-  })
-    .then(res => {
-      // console.log(res.data.data);
-      // console.log(formatCards(res.data.data, setId));
-      // formatCards(res.data.data);
-      return formatCards(res.data.data, setId);
-    })
-    .catch(error => {
-      console.log('error', error.message);
-      console.log('set:', setCode);
-      console.log('problem card: ', problemCard);
-    });
-};
-
-const formatCards = (cardData, setId) => {
+const formatCards = (cardData) => {
   return cardData.map(card => {
     // set_id INTEGER references sets(id),
     // card_name TEXT NOT NULL,
@@ -34,13 +24,12 @@ const formatCards = (cardData, setId) => {
 
     // Dual Faced Card edge case
     let cardObject = {};
-    problemCard = card.name;
 
     if (card.card_faces) {
       const front = card.card_faces[0];
       const back = card.card_faces[1];
       cardObject = {
-        set_id: setId,
+        set_id: card.set_id,
         scryfall_id: card.id,
         card_name: card.name,
         cost: `${front.mana_cost ? front.mana_cost : null},${back.mana_cost ? back.mana_cost : null}`,
@@ -53,7 +42,7 @@ const formatCards = (cardData, setId) => {
     // Regular card case
     else {
       cardObject = {
-        set_id: setId,
+        set_id: card.set_id,
         scryfall_id: card.id,
         card_name: card.name,
         cost: card.mana_cost,
@@ -78,7 +67,14 @@ const postCards = (db, cardSet) => {
     .then((row) => row[0]);
 };
 
+const getCards = (db, set_id) => {
+  return db('cards')
+    .where({ set_id: set_id })
+    .then(rows => rows);
+};
+
 module.exports = {
+  // getCardsFromScryfall,
   getCards,
   postCards,
   formatCards

@@ -23,4 +23,16 @@ setsRouter
       .catch(next);
   });
 
+// GET full list of sets
+setsRouter
+  .route('/')
+  .get((req, res, next) => {
+    SetService.getAllSets(req.app.get('db'))
+      .then(allSets => {
+        return res.status(200).json(allSets);
+      })
+      .catch(next);
+  });
+
+
 module.exports = setsRouter;
