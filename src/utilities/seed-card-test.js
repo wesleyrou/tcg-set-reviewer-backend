@@ -2,7 +2,9 @@
 // https://scryfall.com/docs/api/bulk-data
 
 // 'src/utilities/small-cards.json'
-let filePath = '../data/all-cards-large.json'; // set filePath to where the downloaded bulk data is located
+require('dotenv').config();
+
+let filePath = 'C:/Users/Wesley/Downloads/all-cards.json'; // set filePath to where the downloaded bulk data is located
 const StreamArray = require('stream-json/streamers/StreamArray');
 const fs = require('fs');
 
