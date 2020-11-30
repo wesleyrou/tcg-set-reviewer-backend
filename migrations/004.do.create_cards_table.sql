@@ -3,6 +3,7 @@ CREATE TABLE cards (
     set_id INTEGER references sets(id),
     scryfall_id TEXT NOT NULL,
     card_name TEXT NOT NULL,
+    lang TEXT NOT NULL,
     cost TEXT,
     card_type TEXT,
     color TEXT, -- colors TEXT = "W|U|B|R|G" --- Leave empty for colorless

@@ -32,6 +32,7 @@ const formatCards = (cardData) => {
         set_id: card.set_id,
         scryfall_id: card.id,
         card_name: card.name,
+        lang: card.lang,
         cost: `${front.mana_cost ? front.mana_cost : null},${back.mana_cost ? back.mana_cost : null}`,
         card_type: `${front.type_line},${back.type_line}`,
         color: card.colors ? card.colors.toString() : `${front.colors.toString()},${back.colors.toString()}`,
@@ -47,6 +48,7 @@ const formatCards = (cardData) => {
         card_name: card.name,
         cost: card.mana_cost,
         card_type: card.type_line,
+        lang: card.lang,
         color: card.colors ? card.colors.toString() : '',
         rarity: card.rarity,
         image_url: card.image_uris.normal
@@ -69,7 +71,7 @@ const postCards = (db, cardSet) => {
 
 const getCards = (db, set_id) => {
   return db('cards')
-    .where({ set_id: set_id })
+    .where({ set_id: set_id, lang: 'en' })
     .then(rows => rows);
 };
 

@@ -30,6 +30,7 @@ const seedAllSetCodesFromScryfall = (db) => {
         return {
           code: setData.code,
           set_name: setData.name,
+          set_type: setData.set_type,
           release_date: setData.released_at
         };
       }).reverse();
