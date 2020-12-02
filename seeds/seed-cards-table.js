@@ -8,11 +8,11 @@ let filePath = process.env.bulk_data_location || '../data/all-cards-large.json';
 const StreamArray = require('stream-json/streamers/StreamArray');
 const fs = require('fs');
 
-const CardsService = require('../cards/cards-service');
-const SetsService = require('../sets/set-service');
+const CardsService = require('../src/cards/cards-service');
+const SetsService = require('../src/sets/set-service');
 
 const knex = require('knex');
-const { DATABASE_URL } = require('../config');
+const { DATABASE_URL } = require('../src/config');
 
 const db = knex({
   client: 'pg',
