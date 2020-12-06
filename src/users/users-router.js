@@ -24,7 +24,7 @@ userRouter
           error: `Missing '${field} in request body`,
         });
 
-    const passwordError = UserService.validatePassword(password);
+    const passwordError = UserService.validate(password);
     if (passwordError)
       return res.status(400).json({ error: passwordError });
     UserService.hasUserWithUsername(req.app.get('db'), username)
@@ -42,7 +42,7 @@ userRouter
             return UserService.insertUser(req.app.get('db'), newUser).then(
               (user) => {
                 res.status(201)
-                  .json(UserService.sericalizeUser(user));
+                  .json(UserService.serializeUser(user));
               }
             );
           });

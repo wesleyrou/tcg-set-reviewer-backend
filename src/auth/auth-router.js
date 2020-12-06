@@ -26,7 +26,7 @@ authRouter
         if (!user)
           return res.status(400).json({ error: 'Incorrect Username or Password' });
 
-        return bcrypt.compare(password, user, password)
+        return bcrypt.compare(password, user.password)
           .then(passwordMatch => {
             if (!passwordMatch)
               return res.status(400).json({ error: 'Incorrect Username or Password' });
