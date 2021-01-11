@@ -1,18 +1,24 @@
 const axios = require('axios');
 
-// const getCardsFromScryfall = (setCode, setId) => {
-//   return axios.get(`https://api.scryfall.com/cards/search?q=set:${setCode}&order=color`, {
-//     headers: { 'Origin': 'X-Requested-With' } // may be able to remove this later
-//   })
-//     .then(res => {
-//       return formatCards(res.data.data, setId);
-//     })
-//     .catch(error => {
-//       console.log('error', error.message);
-//     });
-// };
 
-const formatCards = (cardData) => {
+//TEMPORARY WORKING PROTOTYPE CODE FOR KALDHEIM!!!!!!!!!!!!!!
+
+const getCardsFromScryfall = (setCode, setID) => {
+  console.log(setCode)
+  return axios.get(`https://api.scryfall.com/cards/search?q=set:${setCode}&order=color`, {
+    headers: { 'Origin': 'X-Requested-With' } // may be able to remove this later
+  })
+    .then(res => {
+      // console.log(res.data)      
+      return formatCards(res.data.data, setID);
+    })
+    .catch(error => {
+      console.log('error', error.message);
+    });
+};
+
+
+const formatCards = (cardData, setID) => {  
   return cardData.map(card => {
     // set_id INTEGER references sets(id),
     // card_name TEXT NOT NULL,
@@ -29,7 +35,7 @@ const formatCards = (cardData) => {
       const front = card.card_faces[0];
       const back = card.card_faces[1];
       cardObject = {
-        set_id: card.set_id,
+        set_id: setID,
         scryfall_id: card.id,
         card_name: card.name,
         lang: card.lang,
@@ -43,7 +49,7 @@ const formatCards = (cardData) => {
     // Regular card case
     else {
       cardObject = {
-        set_id: card.set_id,
+        set_id: setID,
         scryfall_id: card.id,
         card_name: card.name,
         cost: card.mana_cost,
@@ -72,11 +78,12 @@ const postCards = (db, cardSet) => {
 const getCards = (db, set_id) => {
   return db('cards')
     .where({ set_id: set_id, lang: 'en' })
+    .orderBy('id')
     .then(rows => rows);
 };
 
 module.exports = {
-  // getCardsFromScryfall,
+  getCardsFromScryfall,
   getCards,
   postCards,
   formatCards

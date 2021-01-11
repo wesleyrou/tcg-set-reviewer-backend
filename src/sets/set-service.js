@@ -4,7 +4,7 @@ const getSetId = (db, code) => {
   return db
     .from('sets')
     .where('code', code)
-    .then((row) => row[0]);
+    .then((row) => row[0].id);
 };
 
 const getAllSets = (db) => {
@@ -52,6 +52,7 @@ const postNewSetsFromScryfall = (db) => {
         return {
           code: setData.code,
           set_name: setData.name,
+          set_type: setData.set_type,
           release_date: setData.released_at
         };
       });
@@ -70,9 +71,6 @@ const postNewSetsFromScryfall = (db) => {
             message: `${allSetCodes.length} sets posted`
           };
         });
-
-
-
     });
 };
 

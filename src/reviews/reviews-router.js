@@ -9,11 +9,10 @@ reviewsRouter
     const {user_id} = req.body;
     const {setID} = req.params;
     const set_id = setID;
-
     
     ReviewsService.getMatchingReviews(user_id, set_id, req.app.get('db'))
     .then(matchingReviews => {
-        //if user_id and set_id match a review then post nothing return the cardreviews with matching review_id
+        //if no matching review, post review with user_id and set_id
         if(matchingReviews.length === 0) {
             const newReview = {
                 user_id,
@@ -21,15 +20,11 @@ reviewsRouter
             }
             ReviewsService.postReview(newReview, req.app.get('db'))
             .then(newReview => {
-                ReviewsService.postNewCardReviews(newReview, req.app.get('db'))
-                .then(cardReviews => {
-                   return res.status(201).json(cardReviews)
-                })
-                .catch(next)
-            })            
+                return res.status(201).json(newReview)
+            })
             .catch(next)  
         
-        //else post review with user_id and set_id && post empty cardreviews with matching review_id
+        //if user_id and set_id match a review then post nothing return the cardreviews with matching review_id
         } else {
             ReviewsService.getCardReviews(matchingReviews[0].id, req.app.get('db'))
             .then(cardReviews => {

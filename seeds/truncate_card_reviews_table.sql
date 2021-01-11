@@ -1,0 +1,1 @@
+TRUNCATE card_reviews CASCADE;
