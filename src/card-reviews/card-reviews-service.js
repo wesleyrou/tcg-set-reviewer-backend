@@ -7,10 +7,10 @@ const getCardReviews = (db, review_id) => {
     .returning('*')
 }
 
-const updateCardReviews = (db, cardReviews) => {
+const updateCardReviews = (db, cardReviews, currentReview) => {
   let posted = 0;
   let updated = 0;
-  return getCardReviews(db, cardReviews[0].review_id)
+  return getCardReviews(db, currentReview.id)
     .then(reviews => {
         for(let i = 0; i < cardReviews.length; i++) {
             let currentCard = cardReviews[i]

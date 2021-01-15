@@ -20,7 +20,7 @@ reviewsRouter
             }
             ReviewsService.postReview(newReview, req.app.get('db'))
             .then(newReview => {
-                return res.status(201).json(newReview)
+                return res.status(201).json({newReview, cardReviews: []})
             })
             .catch(next)  
         
@@ -28,7 +28,7 @@ reviewsRouter
         } else {
           ReviewsService.getCardReviews(matchingReviews[0].id, req.app.get('db'))
             .then(cardReviews => {
-              return res.status(200).json(cardReviews);
+              return res.status(200).json({review: matchingReviews[0], cardReviews: cardReviews});
             })
             .catch(next);
         }

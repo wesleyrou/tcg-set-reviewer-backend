@@ -9,6 +9,7 @@ const cardsRouter = require('./cards/cards-router');
 const setsRouter = require('./sets/sets-router');
 const reviewsRouter = require('./reviews/reviews-router');
 const cardReviewsRouter = require('./card-reviews/card-reviews-router');
+const compiledReviewsRouter = require('./compiledReviews/compiled-reviews-router');
 
 const app = express();
 
@@ -24,6 +25,8 @@ app.use('/api/cards', cardsRouter);
 app.use('/api/sets', setsRouter);
 app.use('/api/reviews', reviewsRouter);
 app.use('/api/cardReviews', cardReviewsRouter);
+app.use('/api/compiledReviews', compiledReviewsRouter);
+
 
 
 // eslint-disable-next-line no-unused-vars
