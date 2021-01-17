@@ -40,7 +40,8 @@ const seedAllSetCodesFromScryfall = (db) => {
         message: `${allSetCodes.length} sets posted`
       };
 
-    });
+    })
+    .catch(err => err)
 };
 
 const postNewSetsFromScryfall = (db) => {
