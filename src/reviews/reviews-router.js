@@ -35,7 +35,6 @@ reviewsRouter
         // console.log(matchingReviews)
       })
       .catch(next);
-
-  });
+  })
 
 module.exports = reviewsRouter;

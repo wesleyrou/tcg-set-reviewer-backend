@@ -13,7 +13,7 @@ const getAllSets = (db) => {
     .returning('*');
 };
 
-const postSet = (db, setObject) => {
+const postSet = (db, setObject) => {  
   return db
     .insert(setObject)
     .into('sets')
@@ -34,12 +34,13 @@ const seedAllSetCodesFromScryfall = (db) => {
           release_date: setData.released_at
         };
       }).reverse();
-      postSet(db, allSetCodes);
-
-      return {
-        message: `${allSetCodes.length} sets posted`
-      };
-
+      postSet(db, allSetCodes)
+      .then(() => {
+        return {
+          message: `${allSetCodes.length} sets posted`
+        };
+      })
+      .catch(err => console.log(err))
     })
     .catch(err => err)
 };
