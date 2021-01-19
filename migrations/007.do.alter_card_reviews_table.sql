@@ -3,5 +3,5 @@ ALTER TABLE card_reviews
 ;
 
 ALTER TABLE card_reviews
-    ADD COLUMN rating NUMERIC(2,2)
+    ADD COLUMN rating TEXT
 ;
