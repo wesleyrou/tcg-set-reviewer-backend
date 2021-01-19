@@ -4,11 +4,11 @@ const axios = require('axios');
 //TEMPORARY WORKING PROTOTYPE CODE FOR KALDHEIM!!!!!!!!!!!!!!
 
 const getCardsFromScryfall = (setCode, setID) => {  
-  return axios.get(`https://api.scryfall.com/cards/search?q=set:${setCode}&order=color`, {
+  return axios.get(`https://api.scryfall.com/cards/search?q=set:${setCode}&is=booster&order=color`, {
     headers: { 'Origin': 'X-Requested-With' } // may be able to remove this later
   })
     .then(res => {
-      return axios.get(`https://api.scryfall.com/cards/search?q=set:${setCode}&order=color&page=2`)
+      return axios.get(`https://api.scryfall.com/cards/search?q=set:${setCode}&is=booster&order=color&page=2`)
       .then(secondRes => {        
         const dataOne = res.data.data
         const dataTwo = secondRes.data.data
