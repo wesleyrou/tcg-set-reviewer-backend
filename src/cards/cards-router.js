@@ -1,6 +1,7 @@
 const express = require('express');
 const CardsService = require('./cards-service');
 const SetService = require('../sets/set-service');
+const { format } = require('morgan');
 
 const cardsRouter = express.Router();
 
@@ -31,9 +32,9 @@ cardsRouter
     SetService.getSetId(req.app.get('db'), setCode)
       .then(setID => {        
         CardsService.getCardsFromScryfall(setCode, setID)
-          .then(formattedCards => {
+          .then(formattedCards => {            
             CardsService.postCards(req.app.get('db'), formattedCards)
-              .then(postedCards => {
+              .then(postedCards => {                
                 return res.status(201).json(postedCards)
               })
               .catch(next);

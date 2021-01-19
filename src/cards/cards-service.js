@@ -3,14 +3,18 @@ const axios = require('axios');
 
 //TEMPORARY WORKING PROTOTYPE CODE FOR KALDHEIM!!!!!!!!!!!!!!
 
-const getCardsFromScryfall = (setCode, setID) => {
-  console.log(setCode)
+const getCardsFromScryfall = (setCode, setID) => {  
   return axios.get(`https://api.scryfall.com/cards/search?q=set:${setCode}&order=color`, {
     headers: { 'Origin': 'X-Requested-With' } // may be able to remove this later
   })
     .then(res => {
-      // console.log(res.data)      
-      return formatCards(res.data.data, setID);
+      return axios.get(`https://api.scryfall.com/cards/search?q=set:${setCode}&order=color&page=2`)
+      .then(secondRes => {        
+        const dataOne = res.data.data
+        const dataTwo = secondRes.data.data
+        return formatCards([...dataOne,...dataTwo], setID);
+      })
+      .catch(err => console.log(err.message))
     })
     .catch(error => {
       console.log('error', error.message);
@@ -19,6 +23,7 @@ const getCardsFromScryfall = (setCode, setID) => {
 
 
 const formatCards = (cardData, setID) => {  
+  // console.log(cardData[0])
   return cardData.map(card => {
     // set_id INTEGER references sets(id),
     // card_name TEXT NOT NULL,
@@ -60,7 +65,6 @@ const formatCards = (cardData, setID) => {
         image_url: card.image_uris.normal
       };
     }
-
     return cardObject;
     // image options = small, normal, large, png, art_crop, border_crop
   });
