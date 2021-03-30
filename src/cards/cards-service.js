@@ -3,8 +3,12 @@ const axios = require('axios');
 
 //TEMPORARY WORKING PROTOTYPE CODE FOR KALDHEIM!!!!!!!!!!!!!!
 
-const getCardsFromScryfall = (setCode, setID) => {  
-  return axios.get(`https://api.scryfall.com/cards/search?q=set:${setCode}+is:booster&order=color`, {
+//additionalQueryParams in request.body typically "+is:booster&order=color"
+
+//for strixhaven academy
+
+const getCardsFromScryfall = (setCode, setID, additionalQueryParams) => { 
+  return axios.get(`https://api.scryfall.com/cards/search?q=set:${setCode}${additionalQueryParams}`, {
     headers: { 'Origin': 'X-Requested-With' } // may be able to remove this later
   })
   .then(res => {
@@ -15,7 +19,7 @@ const getCardsFromScryfall = (setCode, setID) => {
     }
 
 
-      return axios.get(`https://api.scryfall.com/cards/search?q=set:${setCode}+is:booster&order=color&page=2`)
+      return axios.get(`https://api.scryfall.com/cards/search?q=set:${setCode}${additionalQueryParams}&page=2`)
       .then(secondRes => {        
         
         const dataOne = res.data.data

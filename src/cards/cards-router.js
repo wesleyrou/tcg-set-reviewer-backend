@@ -28,10 +28,12 @@ cardsRouter
   })
   .post(express.json(), (req, res, next) => {
     const { setCode } = req.params;
+    const { additionalQueryParams} = req.body
+    // console.log(req)
 
     SetService.getSetId(req.app.get('db'), setCode)
       .then(setID => {        
-        CardsService.getCardsFromScryfall(setCode, setID)
+        CardsService.getCardsFromScryfall(setCode, setID, additionalQueryParams)
           .then(formattedCards => {            
             CardsService.postCards(req.app.get('db'), formattedCards)
               .then(postedCards => {                
