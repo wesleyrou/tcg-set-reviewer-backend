@@ -7,11 +7,21 @@ const getCardsFromScryfall = (setCode, setID) => {
   return axios.get(`https://api.scryfall.com/cards/search?q=set:${setCode}+is:booster&order=color`, {
     headers: { 'Origin': 'X-Requested-With' } // may be able to remove this later
   })
-    .then(res => {
+  .then(res => {
+
+    //TEMPORARY WORKING FIX FOR PREVIEW SEASON WHEN THERE ARENT TWO PAGES OF SPOILERS YET
+    if(!res.data.has_more) {
+      return formatCards(res.data.data, setID);
+    }
+
+
       return axios.get(`https://api.scryfall.com/cards/search?q=set:${setCode}+is:booster&order=color&page=2`)
       .then(secondRes => {        
+        
         const dataOne = res.data.data
-        const dataTwo = secondRes.data.data
+        const dataTwo = secondRes.data.data        
+        
+        console.log([...dataOne,...dataTwo])
         return formatCards([...dataOne,...dataTwo], setID);
       })
       .catch(err => console.log(err.message))
