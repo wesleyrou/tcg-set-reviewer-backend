@@ -11,7 +11,10 @@
     "start": "node src/server.js",
     "predeploy": "npm audit",
     "deploy": "git push heroku main",
-    "postdeploy": "npm run migrate:production"
+    "postdeploy": "npm run migrate:production",
+    "nossl": "heroku config:set PGSSLMODE=no-verify",
+    "provision": "heroku addons:create heroku-postgresql:hobby-dev",
+    "connect": "heroku pg:psql"
   },
   "keywords": [],
   "author": "",
